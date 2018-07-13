@@ -41,7 +41,9 @@ else
 endif
 
 #Execute RAS method on each table type
-resultsRAS(:, :, :, i) = doRAS(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, 0.000000001, 2000);
+[matrices, resultsRAS(:, :, :, i)] = doRAS(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, 0.000000001, 2000);
 
+
+fclose all;
 
 end

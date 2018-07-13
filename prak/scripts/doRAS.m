@@ -1,19 +1,22 @@
-function result = doRAS(
+function [matrices, result] = doRAS(
   A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, ep, maxim)
 
   result = reshape(1:48, 4, 6, 2);
 
 #Calculate tables for assumption a(all from one) and assumption b(each from previous)
-B12 = RAS(A11, U12, V12, ep, maxim);
+B12 = RAS(A11, U12, V12, ep, maxim,1);
 
-B13 = RAS(A11, U13, V13, ep, maxim);
-C13 = RAS(B12, U13, V13, ep, maxim);
+B13 = RAS(A11, U13, V13, ep, maxim,2);
 
-B14 = RAS(A11, U14, V14, ep, maxim);
-C14 = RAS(C13, U14, V14, ep, maxim);
+B14 = RAS(A11, U14, V14, ep, maxim,3);
 
-B15 = RAS(A11, U15, V15, ep, maxim);
-C15 = RAS(C14, U15, V15, ep, maxim);
+B15 = RAS(A11, U15, V15, ep, maxim,4);
+
+
+C13 = RAS(B12, U13, V13, ep, maxim,5);
+C14 = RAS(C13, U14, V14, ep, maxim,6);
+C15 = RAS(C14, U15, V15, ep, maxim,7);
+
 
 
 
@@ -40,5 +43,6 @@ nB = [N0(A12, B12), N0(A13, C13), N0(A14, C14), N0(A15, C15)];
 result(:, :, 1) = [mA; wA; sA; pA; rA; nA]';
 result(:, :, 2) = [mB; wB; sB; pB; rB; nB]';
 
+matrices = [B12, B13, B14, B15; B12, C13, C14, C15];
 
 endfunction

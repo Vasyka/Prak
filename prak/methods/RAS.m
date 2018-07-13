@@ -1,4 +1,4 @@
-function result = RAS(Az, u, v, epsilon = 0.00001, maxim = 10000)
+function result = RAS(Az, u, v, epsilon = 0.00001, maxim = 10000, sheet)
   
   itt = 0;
   
@@ -29,6 +29,9 @@ function result = RAS(Az, u, v, epsilon = 0.00001, maxim = 10000)
         itt > maxim))
   
   result = Az;
+  
+  f = './res_matrices.xlsx';
+  xlswrite(f,Az,sheet);
   
 endfunction
 
