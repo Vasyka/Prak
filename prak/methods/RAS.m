@@ -1,6 +1,6 @@
-function result = RAS(Az, u, v, epsilon = 0.00001, maxim = 10000, sheet)
+function result = RAS(Az, u, v, epsilon = 0.01, maxim = 10000)
   
-  itt = 0;
+itt = 0;
   
   do
     
@@ -29,14 +29,5 @@ function result = RAS(Az, u, v, epsilon = 0.00001, maxim = 10000, sheet)
         itt > maxim))
   
   result = Az;
-  
-  f = './res_matrices.xlsx';
-  xlswrite(f,Az,sheet);
-  
-endfunction
-
-function result = fRAS(A, Az)
-  
-  result = sum((A .* log(A ./ (Az * e)) .+ 1)(and(Az > 0)));
   
 endfunction
