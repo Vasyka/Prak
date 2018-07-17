@@ -5,8 +5,6 @@ addpath("./metrics");
 pkg load io;
 
 
-resultsRAS = reshape(1:144, 4, 6, 2, 3);
-
 for i = 1:3
 
 # Load data
@@ -40,12 +38,8 @@ else
   V15 = xlsread('data/tri-2015.xlsx', i+1, 'D68:BJ68');
 endif
 
-#Execute RAS method on each table type
-#[matrices, resultsRAS(:, :, :, i)] = doRAS(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, 0.000000001, 2000);
-
-#Kuroda method
 sheetnames = {'ТР';'ТИцп';'ТИоц'};
-#doKuroda(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, sheetnames{i});
+# Execute all methods for each table sheet
 doAll(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, sheetnames{i});
 
 
