@@ -1,4 +1,4 @@
-function result = INSD (Az, u, v, epsilon = 0.01, maxim = 10000)
+function result = INSD (Az, u, v, epsilon = 0.01, maxim = 5000)
   itt = 0;
   Az(Az == 0) = 0.01;
 
@@ -30,13 +30,9 @@ function result = INSD (Az, u, v, epsilon = 0.01, maxim = 10000)
     tau = (v - v0 + sum(neg - lambd .* Az, 1)) ./ v0;
     
     #Z
-    for i = 1 : k
-      for j = 1 : k
-        z(i,j) = (Az(i,j) ~= 0) * (1 + lambd(i) + tau(j)) + (Az(i,j) == 0);
-      endfor
-    endfor
-    Z = z .* ((z >= 0) + (z < 0) / (1 + M));
-  
+    Z = 1 + lambd .* ones(1, k) + tau .* ones(k, 1);
+    Z(Az == 0) = 1;
+    Z = ifelse(Z >= 0, Z, Z / (1 + M));
     
     diffLambd = abs(lambd .- lambd0);
     diffTau = abs(tau .- tau0);

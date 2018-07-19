@@ -1,4 +1,4 @@
-function result = RAS(Az, u, v, epsilon = 0.01, maxim = 10000)
+function result = RAS(Az, u, v, epsilon = 0.01, maxim = 5000)
 % PURPOSE: estimate a new matrix X on the base of X0 with exogenously
 % given row and column totals.
 % -------------------------------------------------------------------------

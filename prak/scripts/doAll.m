@@ -15,7 +15,7 @@ function doAll(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, 
 
 
 metrics_names = {'Year','MAPE','WAPE','SWAD','PsiStat','RSQ','N0'};
-methods_names = {'Kuroda'}; #'RAS','INSD'
+methods_names = {'RAS','INSD','Kuroda'}; #'RAS','INSD','Kuroda'
 diffMetric = {'Year';
               '2013'; 
               '2014';
@@ -33,7 +33,7 @@ for m = 1:length(methods_names) # cycle for each method of projection
 
     # Calc & save tables
     k = num2str(j);
-    #printf("app1 %d %s \n", 2000 + j, methods_names{m});
+    #printf("app1 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
     Bs(:,:,itt) = eval([methods_names{m}, '(A11, ', 'U', k, ', ' , 'V', k, ')']);
     filename = ['res_', methods_names{m}, k, '.xlsx'];
   
@@ -63,7 +63,7 @@ for m = 1:length(methods_names) # cycle for each method of projection
 
     # Calc & save tables
     k = num2str(j);
-    #printf("app2 %d %s \n", 2000 + j, methods_names{m});
+    #printf("app2 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
     Bs(:,:,itt) = eval([methods_names{m}, '(C, ', 'U', k, ', ' , 'V', k, ')']);
     filename = ['res_', methods_names{m}, k, '.xlsx'];
     xlswrite(filename, Bs(:,:,itt), s);
