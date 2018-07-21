@@ -33,7 +33,7 @@ for m = 1:length(methods_names) # cycle for each method of projection
 
     # Calc & save tables
     k = num2str(j);
-    #printf("app1 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
+    printf("app1 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
     Bs(:,:,itt) = eval([methods_names{m}, '(A11, ', 'U', k, ', ' , 'V', k, ')']);
     filename = ['res_', methods_names{m}, k, '.xlsx'];
   
@@ -63,7 +63,7 @@ for m = 1:length(methods_names) # cycle for each method of projection
 
     # Calc & save tables
     k = num2str(j);
-    #printf("app2 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
+    printf("app2 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
     Bs(:,:,itt) = eval([methods_names{m}, '(C, ', 'U', k, ', ' , 'V', k, ')']);
     filename = ['res_', methods_names{m}, k, '.xlsx'];
     xlswrite(filename, Bs(:,:,itt), s);

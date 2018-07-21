@@ -2,7 +2,7 @@ function result = RAS(Az, u, v, epsilon = 0.01, maxim = 5000)
 % PURPOSE: estimate a new matrix X on the base of X0 with exogenously
 % given row and column totals.
 % -------------------------------------------------------------------------
-% USAGE: X = gras(X0,u,v) with or without epsilon and maxim
+% USAGE: X = RAS(X0,u,v) with or without epsilon and maxim
 % included as the five argument, where
 % INPUT:
 % -> Az = benchmark (base) matrix, not necessarily square
@@ -10,7 +10,7 @@ function result = RAS(Az, u, v, epsilon = 0.01, maxim = 5000)
 % -> v = column vector of column totals
 % -> epsilon = convergence tolerance level; if empty, the default threshold
 % is 0.01
-% -> maxim = maximum itterations before algorythm stops, if empty, the default
+% -> maxim = maximum itterations before algorithm stops, if empty, the default
 % limit is 10.000 itterations
 % OUTPUT:
 % -> result = estimated/adjusted/updated matrix
