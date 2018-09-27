@@ -5,12 +5,9 @@ addpath("./metrics");
 warning("off");
 pkg load io;
 
-<<<<<<< HEAD
 mkdir("./results");
 mkdir("./metrics-results");
 
-=======
->>>>>>> 9d39aa2c26a98c57c58bbca08aa0f07b198ed40c
 sheetnames = {'ТР';'ТИцп';'ТИоц'};
 for i = 1:3
 
