@@ -2,45 +2,30 @@ clear all;
 addpath("./scripts");
 addpath("./methods");
 addpath("./metrics");
+warning("off");
 pkg load io;
 
-
-for i = 1:3
-
-# Load data
-A11 = xlsread('data/2011aggr_ispr.xlsx', i, 'D5:BJ63');
-A12 = xlsread('data/tri-2012.xlsx', i+1, 'D5:BJ63');
-A13 = xlsread('data/tri-2013.xlsx', i+1, 'D5:BJ63');
-A14 = xlsread('data/tri-2014.xlsx', i, 'D5:BJ63');
-A15 = xlsread('data/tri-2015.xlsx', i+1, 'D5:BJ63');
-
-#Load row sums
-U12 = xlsread('data/tri-2012.xlsx', i+1, 'BK5:BK63');
-U13 = xlsread('data/tri-2013.xlsx', i+1, 'BK5:BK63');
-U14 = xlsread('data/tri-2014.xlsx', i, 'BK5:BK63');
-U15 = xlsread('data/tri-2015.xlsx', i+1, 'BK5:BK63');
-
-#Load column sums
-if (i == 1)#Cuz different sheets have their column sums on different rows
-  V12 = xlsread('data/tri-2012.xlsx', i+1, 'D66:BJ66');
-  V13 = xlsread('data/tri-2013.xlsx', i+1, 'D66:BJ66');
-  V14 = xlsread('data/tri-2014.xlsx', i, 'D66:BJ66');
-  V15 = xlsread('data/tri-2015.xlsx', i+1, 'D66:BJ66');
-elseif (i == 2)
-  V12 = xlsread('data/tri-2012.xlsx', i+1, 'D67:BJ67');
-  V13 = xlsread('data/tri-2013.xlsx', i+1, 'D67:BJ67');
-  V14 = xlsread('data/tri-2014.xlsx', i, 'D67:BJ67');
-  V15 = xlsread('data/tri-2015.xlsx', i+1, 'D67:BJ67');
-else
-  V12 = xlsread('data/tri-2012.xlsx', i+1, 'D68:BJ68');
-  V13 = xlsread('data/tri-2013.xlsx', i+1, 'D68:BJ68');
-  V14 = xlsread('data/tri-2014.xlsx', i, 'D68:BJ68');
-  V15 = xlsread('data/tri-2015.xlsx', i+1, 'D68:BJ68');
-endif
+mkdir("./results");
+mkdir("./metrics-results");
 
 sheetnames = {'ТР';'ТИцп';'ТИоц'};
-# Execute all methods for each table sheet
-doAll(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, sheetnames{i});
+for i = 1:3
 
+  # Load data
+  A11 = xlsread('data/2011aggr_ispr.xlsx', i, 'D5:BJ63');
+  A12 = xlsread('data/tri-2012.xlsx', i+1, 'D5:BJ63');
+  A13 = xlsread('data/tri-2013.xlsx', i+1, 'D5:BJ63');
+  A14 = xlsread('data/tri-2014.xlsx', i, 'D5:BJ63');
+  A15 = xlsread('data/tri-2015.xlsx', i+1, 'D5:BJ63');
 
-end
+  # Calculate row & column sums
+  for j = 1:4
+    k = num2str(j + 11);
+    U(:,j) = sum(eval(['A', k]), 2);
+    V(j,:) = sum(eval(['A', k]), 1);
+  endfor
+
+  # Execute all methods for each table sheet
+  doAll(A11, A12, A13, A14, A15, U(:,1), V(1,:), U(:,2), V(2,:), U(:,3), V(3,:), U(:,4), V(4,:), sheetnames{i});
+
+endfor
