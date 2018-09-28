@@ -1,4 +1,4 @@
-function result = INSD (Az, u, v, epsilon = 0.01, maxim = 5000)
+function result = INSD (Az, u, v, variant = 1, epsilon = 0.01, maxim = 10000)
 % PURPOSE: estimate a new matrix X on the base of X0 with exogenously
 % given row and column totals.
 % -------------------------------------------------------------------------
@@ -8,12 +8,14 @@ function result = INSD (Az, u, v, epsilon = 0.01, maxim = 5000)
 % -> Az = benchmark (base) matrix, not necessarily square
 % -> u = row vector of row totals
 % -> v = column vector of column totals
+% -> variant = variant of method, always 1
 % -> epsilon = convergence tolerance level; if empty, the default threshold
 % is 0.01
 % -> maxim = maximum itterations before algorithm stops, if empty, the default
 % limit is 10.000 itterations
 % OUTPUT:
 % -> result = estimated/adjusted/updated matrix
+% -> variant = variant of method, always 1
 
   itt = 0;
   Az(Az == 0) = 0.01;

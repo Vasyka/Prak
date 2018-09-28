@@ -15,7 +15,7 @@ function doAll(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, 
 
 
 metrics_names = {'Year','MAPE','WAPE','SWAD','PsiStat','RSQ','N0'};
-methods_names = {'RAS','INSD','Kuroda'}; #'RAS','INSD','Kuroda'
+methods_names = {'RAS','INSD','Kuroda1','Kuroda2','Kuroda3'}; #'RAS','INSD','Kuroda' 
 diffMetric = {'Year';
               'app1 and app2';
               '2013'; 
@@ -32,6 +32,15 @@ diffMetric = {'Year';
 
 for m = 1:length(methods_names) # cycle for each method of projection
   
+  curr_method = methods_names{m};
+  if strcmp(curr_method(1:end-1),"Kuroda") # catching variants of Kuroda method
+    variant = curr_method(end);
+    curr_method_name = curr_method(1:end-1);
+  else
+    variant = "1";
+    curr_method_name = curr_method;
+  endif
+  
   itt = 1;
   Bs = reshape(1:59*59*10, 59, 59, 10); # vector of matrixes 59x59 for result matrixes
   metrics = metrics_names;
@@ -42,9 +51,9 @@ for m = 1:length(methods_names) # cycle for each method of projection
 
     # Calc & save tables
     k = num2str(j);
-    printf("app1 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
-    Bs(:,:,itt) = eval([methods_names{m}, '(A11, ', 'U', k, ', ' , 'V', k, ')']);
-    filename = ['./results/res_', methods_names{m}, k, '.xlsx'];
+    printf("app1 %d %s %s \n", 2000 + j, curr_method, sheetname);
+    Bs(:,:,itt) = eval([curr_method_name,'(A11, ', 'U', k, ', ' , 'V', k, ', ', variant, ')']);
+    filename = ['./results/res_', curr_method, k, '.xlsx'];
   
     xlswrite(filename, Bs(:,:,itt), s);
   
@@ -61,10 +70,10 @@ for m = 1:length(methods_names) # cycle for each method of projection
   itt+=1;
   endfor
   # Save metrics
-  xlswrite(['./metrics-results/Metrics_',methods_names{m},'.xlsx'], metrics, s);
+  xlswrite(['./metrics-results/Metrics_',curr_method,'.xlsx'], metrics, s);
 
 
-  # One by one calculating (2011 -> 2012; 2012 -> 2013; ...) (app2)
+  # One by one calculating (2012 -> 2013; 2013 -> 2014; ...) (app2)
   metrics = [metrics_names; res12];
   s = [sheetname,'_2'];
   
@@ -72,9 +81,9 @@ for m = 1:length(methods_names) # cycle for each method of projection
 
     # Calc & save tables
     k = num2str(j);
-    printf("app2 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
-    Bs(:,:,itt) = eval([methods_names{m}, '(C, ', 'U', k, ', ' , 'V', k, ')']);
-    filename = ['./results/res_', methods_names{m}, k, '.xlsx'];
+    printf("app2 %d %s %s \n", 2000 + j, curr_method, sheetname);
+    Bs(:,:,itt) = eval([curr_method_name, '(C, ', 'U', k, ', ' , 'V', k, ', ', variant,')']);
+    filename = ['./results/res_', curr_method, k, '.xlsx'];
     xlswrite(filename, Bs(:,:,itt), s);
     C = Bs(:,:,itt);
    
@@ -82,14 +91,14 @@ for m = 1:length(methods_names) # cycle for each method of projection
     metrics = [metrics; calcMetrics(j, metrics_names, eval(['A', k]), Bs(:,:,itt))];
   itt+=1;
   endfor
-  xlswrite(['./metrics-results/Metrics_',methods_names{m},'.xlsx'], metrics, s);
+  xlswrite(['./metrics-results/Metrics_',curr_method,'.xlsx'], metrics, s);
   
   
   
   
   
   
-  # One by one calculating  from static tables (A's) (2011 -> 2012; 2012 -> 2013; ...) (app3)
+  # One by one calculating  from static tables (A's) (2012 -> 2013; 2013 -> 2014; ...) (app3)
   metrics = [metrics_names; res12];
   s = [sheetname,'_3'];
   
@@ -98,17 +107,16 @@ for m = 1:length(methods_names) # cycle for each method of projection
     # Calc & save tables
     k = num2str(j);
     k1 = num2str(j-1);
-    printf("app3 %d %s %s \n", 2000 + j, methods_names{m}, sheetname);
-    Bs(:,:,itt) = eval([methods_names{m}, '(A', k1, ', ', 'U', k, ', ' , 'V', k, ')']);
-    filename = ['./results/res_', methods_names{m}, k, '.xlsx'];
+    printf("app3 %d %s %s \n", 2000 + j, curr_method, sheetname);
+    Bs(:,:,itt) = eval([curr_method_name, '(A', k1, ', ', 'U', k, ', ' , 'V', k, ', ', variant, ')']);
+    filename = ['./results/res_', curr_method, k, '.xlsx'];
     xlswrite(filename, Bs(:,:,itt), s);
-    #C = Bs(:,:,itt);
    
     # Calc metrics
     metrics = [metrics; calcMetrics(j, metrics_names, eval(['A', k]), Bs(:,:,itt))];
   itt+=1;
   endfor
-  xlswrite(['./metrics-results/Metrics_',methods_names{m},'.xlsx'], metrics, s);
+  xlswrite(['./metrics-results/Metrics_',curr_method,'.xlsx'], metrics, s);
   
   
 
@@ -132,7 +140,7 @@ for m = 1:length(methods_names) # cycle for each method of projection
   
 
   
-  diffMetric = [diffMetric, {methods_names{m}; {}; cd13; cd14; cd15; {}; dd13; dd14; dd15; {}; ed13; ed14; ed15}];
+  diffMetric = [diffMetric, {curr_method; {}; cd13; cd14; cd15; {}; dd13; dd14; dd15; {}; ed13; ed14; ed15}];
   
 endfor
 
