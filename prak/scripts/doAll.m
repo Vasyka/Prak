@@ -14,7 +14,7 @@ function doAll(A11, A12, A13, A14, A15, U12, V12, U13, V13, U14, V14, U15, V15, 
 % -> xlsx file with calculated DiffMetric
 
 
-metrics_names = {'Year','MAPE','WAPE','SWAD','PsiStat','RSQ','N0'};
+metrics_names = {'Year','MAPE','WAPE','SWAD','PsiStat','RSQ','N0', 'DiffMetric'};
 methods_names = {'RAS','INSD','Kuroda1','Kuroda2','Kuroda3'}; #'RAS','INSD','Kuroda' 
 diffMetric = {'Year';
               'app1 and app2';
